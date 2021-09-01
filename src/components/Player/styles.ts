@@ -86,9 +86,10 @@ export const Footer = styled.footer`
       background: transparent;
       border: 0;
       font-size: 0;
+      transition: filter 0.3s;
 
       &:hover {
-        background: ${shade(0.2, "#9164FA")};
+        filter: brightness(0.8);
       }
     }
 
