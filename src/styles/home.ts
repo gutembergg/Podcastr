@@ -6,6 +6,7 @@ export const Container = styled.div`
 
   h2 {
     margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -118,7 +119,7 @@ export const AllEpidodes = styled.section`
   }
 
   tbody {
-    height: 300px;
+    height: 290px;
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -145,8 +146,8 @@ export const AllEpidodes = styled.section`
   table {
     width: 100%;
 
-    thead {
-      width: 100%;
+    thead th {
+      width: 28.5%;
     }
 
     a {

@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { shade } from "polished";
 
 export const Container = styled.div`
+  height: 100vh;
   width: 26.5rem;
 
   padding: 3rem 4rem;
 
-  height: 100vh;
   background: var(--purple-500);
 
   display: flex;

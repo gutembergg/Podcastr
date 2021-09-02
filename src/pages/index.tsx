@@ -14,7 +14,7 @@ import {
   LatestEpisodes,
   AllEpidodes,
 } from "../styles/home";
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 
 interface Episode {
   id: string;
@@ -41,17 +41,32 @@ interface Episodes {
 export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
   const tableRef = useRef<HTMLTableSectionElement>(null);
 
-  const options = {
-    root: document.querySelector("#scrollArea"),
-    rootMargin: "0px",
-    threshold: 1.0,
+  const [maxIndexEpisodes, setMaxIndexEpisodes] = useState(5);
+
+  const allEpisodesFetched = allEpisodes.slice(0, maxIndexEpisodes);
+
+  const fetchByScroll = () => {
+    setMaxIndexEpisodes((prev) => prev + 5);
   };
 
-  //var observer = new IntersectionObserver(callback , options);
+  const getScroll = (e: any) => {
+    const scrollTop = e.target.scrollTop;
+    const scrollHeigth = e.target.scrollHeight;
+    const clientheight = e.target.clientHeight;
+    if (scrollTop + clientheight >= scrollHeigth - 10) {
+      fetchByScroll();
+    }
+  };
 
   useEffect(() => {
-    console.log("tableRef: ", tableRef.current?.scrollHeight);
-  }, [tableRef.current?.scrollHeight]);
+    tableRef.current?.addEventListener("scroll", getScroll);
+
+    const unsubscrib = tableRef.current;
+
+    return () => {
+      unsubscrib?.removeEventListener;
+    };
+  }, [tableRef.current?.scrollTop]);
 
   return (
     <Container>
@@ -71,7 +86,7 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
                 />
               </div>
               <div className="info">
-                <Link href={episode.url}>
+                <Link href={`/episode/${episode.id}`}>
                   <a>{episode.title}</a>
                 </Link>
                 <p>
@@ -104,7 +119,7 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
             </tr>
           </thead>
           <tbody ref={tableRef} id="scrollArea" className="table-scroll">
-            {allEpisodes.map((episode) => {
+            {allEpisodesFetched.map((episode) => {
               return (
                 <tr key={episode.id}>
                   <td>
@@ -117,7 +132,9 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
                     />
                   </td>
                   <td>
-                    <a href={episode.title}>{episode.title}</a>
+                    <Link href={`/episode/${episode.id}`}>
+                      <a>{episode.title}</a>
+                    </Link>
                   </td>
                   <td>{episode.members}</td>
                   <td className="publish">{episode.publishedAt}</td>
