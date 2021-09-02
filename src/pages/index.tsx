@@ -14,6 +14,7 @@ import {
   LatestEpisodes,
   AllEpidodes,
 } from "../styles/home";
+import { RefObject, useEffect, useRef } from "react";
 
 interface Episode {
   id: string;
@@ -38,6 +39,20 @@ interface Episodes {
 }
 
 export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
+  const tableRef = useRef<HTMLTableSectionElement>(null);
+
+  const options = {
+    root: document.querySelector("#scrollArea"),
+    rootMargin: "0px",
+    threshold: 1.0,
+  };
+
+  //var observer = new IntersectionObserver(callback , options);
+
+  useEffect(() => {
+    console.log("tableRef: ", tableRef.current?.scrollHeight);
+  }, [tableRef.current?.scrollHeight]);
+
   return (
     <Container>
       <h2>Últimos lançamentos</h2>
@@ -61,7 +76,7 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
                 </Link>
                 <p>
                   {episode.members.length > 30 &&
-                    `${episode.members.slice(0, 30)}...`}
+                    `${episode.members.slice(0, 23)}...`}
                 </p>
                 <span>{episode.publishedAt}</span>
                 <span>{episode.durationAsString}</span>
@@ -74,7 +89,50 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
         })}
       </LatestEpisodesBlock>
 
-      <AllEpidodes></AllEpidodes>
+      <AllEpidodes>
+        <h2>Todos os episódios</h2>
+
+        <table cellSpacing={0}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Podcast</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody ref={tableRef} id="scrollArea" className="table-scroll">
+            {allEpisodes.map((episode) => {
+              return (
+                <tr key={episode.id}>
+                  <td>
+                    <Image
+                      width={120}
+                      height={120}
+                      src={episode.thumbnail}
+                      alt={episode.title}
+                      objectFit="cover"
+                    />
+                  </td>
+                  <td>
+                    <a href={episode.title}>{episode.title}</a>
+                  </td>
+                  <td>{episode.members}</td>
+                  <td className="publish">{episode.publishedAt}</td>
+                  <td>{episode.durationAsString}</td>
+                  <td>
+                    <button type="button">
+                      <Image src={PlayGreen} alt="Tocar" />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </AllEpidodes>
     </Container>
   );
 }
