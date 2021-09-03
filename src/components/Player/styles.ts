@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
   width: 26.5rem;
 
-  padding: 3rem 4rem;
+  padding: 2.5rem 4rem;
 
   background: var(--purple-500);
 
@@ -20,8 +19,27 @@ export const Container = styled.div`
 
   footer {
     align-self: stretch;
-    &.empty {
-      opacity: 0.5;
+  }
+
+  .currentyEpisode {
+    text-align: center;
+
+    img {
+      width: 100%;
+      height: 21rem;
+      border-radius: 1.5rem;
+    }
+
+    strong {
+      display: block;
+      margin-top: 1rem;
+      font: 600 1.1rem Lexend, sans-serif;
+    }
+
+    span {
+      display: block;
+      margin-top: 1rem;
+      opacity: 0.6;
     }
   }
 `;
@@ -30,6 +48,8 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   gap: 1rem;
+
+  margin-bottom: 1rem;
 `;
 
 export const EmptyPlayer = styled.div`
@@ -51,11 +71,17 @@ export const EmptyPlayer = styled.div`
 `;
 
 export const Footer = styled.footer`
+  margin-bottom: 5rem;
+  &.empty {
+    opacity: 0.6;
+  }
+
   .progress {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.875rem;
+    margin-top: 1.5rem;
 
     span {
       display: inline-block;
@@ -78,7 +104,7 @@ export const Footer = styled.footer`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 2.5rem;
+    margin-top: 1.5rem;
     gap: 1.5rem;
 
     button {
@@ -87,8 +113,12 @@ export const Footer = styled.footer`
       font-size: 0;
       transition: filter 0.3s;
 
-      &:hover {
+      &:hover:not(:disabled) {
         filter: brightness(0.8);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
       }
     }
 

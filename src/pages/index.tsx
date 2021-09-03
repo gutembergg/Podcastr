@@ -15,6 +15,7 @@ import {
   AllEpidodes,
 } from "../styles/home";
 import { RefObject, useEffect, useRef, useState } from "react";
+import usePlayer from "../hooks/usePlayer";
 
 interface Episode {
   id: string;
@@ -23,6 +24,7 @@ interface Episode {
   published_at: string;
   thumbnail: string;
   description: string;
+  duration: number;
   file: {
     url: string;
     type: string;
@@ -40,6 +42,7 @@ interface Episodes {
 
 export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
   const tableRef = useRef<HTMLTableSectionElement>(null);
+  const { play } = usePlayer();
 
   const [maxIndexEpisodes, setMaxIndexEpisodes] = useState(5);
 
@@ -96,7 +99,7 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
                 <span>{episode.publishedAt}</span>
                 <span>{episode.durationAsString}</span>
               </div>
-              <button type="button">
+              <button type="button" onClick={() => play(episode)}>
                 <Image width={20} height={20} src={PlayGreen} alt="Tocar" />
               </button>
             </LatestEpisodes>
@@ -140,7 +143,7 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
                   <td className="publish">{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
-                    <button type="button">
+                    <button type="button" onClick={() => play(episode)}>
                       <Image src={PlayGreen} alt="Tocar" />
                     </button>
                   </td>

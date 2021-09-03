@@ -4,17 +4,20 @@ import Player from "../components/Player";
 import GlobalStyles from "../styles/global";
 
 import { Container } from "../styles/app.styles";
+import PlayProvider from "../components/context/PlayContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Container>
-      <main>
-        <Header />
-        <Component {...pageProps} />
-      </main>
-      <Player />
-      <GlobalStyles />
-    </Container>
+    <PlayProvider>
+      <Container>
+        <main>
+          <Header />
+          <Component {...pageProps} />
+        </main>
+        <Player />
+        <GlobalStyles />
+      </Container>
+    </PlayProvider>
   );
 }
 export default MyApp;

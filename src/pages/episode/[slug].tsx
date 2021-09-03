@@ -9,7 +9,12 @@ import { convertDurationToTimeString } from "../../utils/convertDurationToTimeSt
 import ArrowLeft from "../../../public/arrow-left.svg";
 import Play from "../../../public/play.svg";
 
-import { Container, ThumbnailContainer, Header, Description } from "./styles";
+import {
+  Container,
+  ThumbnailContainer,
+  Header,
+  Description,
+} from "../../styles/episodeStyles";
 
 interface IEpisode {
   id: string;
