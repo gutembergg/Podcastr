@@ -71,8 +71,9 @@ export const EmptyPlayer = styled.div`
 `;
 
 export const Footer = styled.footer`
-  margin-bottom: 5rem;
-  &.empty {
+  margin-bottom: 1rem;
+
+  &.empty .progress {
     opacity: 0.6;
   }
 
@@ -89,6 +90,11 @@ export const Footer = styled.footer`
       text-align: center;
     }
 
+    .slider_progress {
+      width: 100%;
+      max-width: 150px;
+    }
+
     .slider {
       flex: 1;
       .emptySlider {
@@ -97,6 +103,19 @@ export const Footer = styled.footer`
         background: var(--purple-300);
         border-radius: 2px;
       }
+    }
+  }
+
+  .actived {
+    img {
+      filter: invert(0.35) sepia(1) saturate(3) hue-rotate(100deg);
+    }
+  }
+
+  .actived:hover {
+    img {
+      filter: brightness(0.9) invert(0.35) sepia(1) saturate(3)
+        hue-rotate(100deg);
     }
   }
 
@@ -119,6 +138,7 @@ export const Footer = styled.footer`
 
       &:disabled {
         cursor: not-allowed;
+        opacity: 0.6;
       }
     }
 

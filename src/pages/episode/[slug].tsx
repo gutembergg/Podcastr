@@ -15,6 +15,7 @@ import {
   Header,
   Description,
 } from "../../styles/episodeStyles";
+import usePlayer from "../../hooks/usePlayer";
 
 interface IEpisode {
   id: string;
@@ -23,10 +24,11 @@ interface IEpisode {
   published_at: string;
   thumbnail: string;
   description: string;
+  duration: number;
   file: {
     url: string;
     type: string;
-    duration: number;
+    duration?: number;
   };
   durationAsString: string;
   url: string;
@@ -38,6 +40,8 @@ interface EpisodesProps {
 }
 
 export default function Episode({ episode }: EpisodesProps) {
+  const { play } = usePlayer();
+
   return (
     <Container>
       <ThumbnailContainer>
@@ -54,7 +58,7 @@ export default function Episode({ episode }: EpisodesProps) {
           alt={episode.thumbnail}
           objectFit="cover"
         />
-        <button type="button">
+        <button type="button" onClick={() => play(episode)}>
           <Image src={Play} alt="Tocar" />
         </button>
       </ThumbnailContainer>

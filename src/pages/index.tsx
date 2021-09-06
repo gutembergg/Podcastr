@@ -14,7 +14,7 @@ import {
   LatestEpisodes,
   AllEpidodes,
 } from "../styles/home";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import usePlayer from "../hooks/usePlayer";
 
 interface Episode {
@@ -42,7 +42,9 @@ interface Episodes {
 
 export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
   const tableRef = useRef<HTMLTableSectionElement>(null);
-  const { play } = usePlayer();
+  const { play, playList } = usePlayer();
+
+  const _episodesList = [...latestEpidodes, ...allEpisodes];
 
   const [maxIndexEpisodes, setMaxIndexEpisodes] = useState(5);
 
@@ -76,7 +78,7 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
       <h2>Últimos lançamentos</h2>
 
       <LatestEpisodesBlock>
-        {latestEpidodes.map((episode) => {
+        {latestEpidodes.map((episode, index) => {
           return (
             <LatestEpisodes key={episode.id} className="episodes">
               <div className="latest-episodes">
@@ -99,7 +101,10 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
                 <span>{episode.publishedAt}</span>
                 <span>{episode.durationAsString}</span>
               </div>
-              <button type="button" onClick={() => play(episode)}>
+              <button
+                type="button"
+                onClick={() => playList(_episodesList, index)}
+              >
                 <Image width={20} height={20} src={PlayGreen} alt="Tocar" />
               </button>
             </LatestEpisodes>
@@ -122,7 +127,7 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
             </tr>
           </thead>
           <tbody ref={tableRef} id="scrollArea" className="table-scroll">
-            {allEpisodesFetched.map((episode) => {
+            {allEpisodesFetched.map((episode, index) => {
               return (
                 <tr key={episode.id}>
                   <td>
@@ -143,7 +148,12 @@ export default function Home({ latestEpidodes, allEpisodes }: Episodes) {
                   <td className="publish">{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
-                    <button type="button" onClick={() => play(episode)}>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        playList(_episodesList, index + latestEpidodes.length)
+                      }
+                    >
                       <Image src={PlayGreen} alt="Tocar" />
                     </button>
                   </td>
